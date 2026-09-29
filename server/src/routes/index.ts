@@ -20,7 +20,9 @@ router.get('/health', (_req, res) => {
   });
 });
 
-router.all('/setup-db', async (_req, res) => {
+import { authenticate, requireAdmin } from '../middleware/auth.middleware';
+
+router.post('/setup-db', authenticate, requireAdmin, async (_req, res) => {
   const { ensureDatabaseSetup } = await import('../config/initDatabase');
   const result = await ensureDatabaseSetup();
   res.status(result.success ? 200 : 500).json(result);

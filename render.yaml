@@ -6,7 +6,7 @@ services:
     region: oregon
     rootDir: .
     buildCommand: npm install --include=dev && cd server && npm install --include=dev && npx prisma generate --schema=../prisma/schema.prisma && npm run build
-    startCommand: cd server && npx prisma db push --schema=../prisma/schema.prisma --accept-data-loss && npx tsx ../prisma/seed.ts && node dist/server.js
+    startCommand: cd server && npx prisma db push --schema=../prisma/schema.prisma --accept-data-loss && node dist/server.js
     envVars:
       - key: NODE_ENV
         value: production

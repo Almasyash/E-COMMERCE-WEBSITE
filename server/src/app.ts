@@ -45,7 +45,7 @@ export const createApp = (): Express => {
         return callback(null, true);
       }
 
-      callback(null, true); // Permissive in production for client flexibility
+      callback(new Error('Blocked by CORS policy: Origin not allowed'));
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
