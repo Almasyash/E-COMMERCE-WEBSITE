@@ -18,15 +18,48 @@ export const createApp = (): Express => {
     })
   );
 
-  // CORS configuration
-  app.use(
-    cors({
-      origin: [config.clientUrl, 'http://localhost:5173', 'http://127.0.0.1:5173'],
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization', 'X-Session-Id'],
-    })
-  );
+  // Allowed CORS origins
+  const allowedOrigins = [
+    'https://almasyash.github.io',
+    'https://fs-groupz.github.io',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:3000',
+  ];
+
+  if (config.clientUrl && !allowedOrigins.includes(config.clientUrl)) {
+    allowedOrigins.push(config.clientUrl);
+  }
+
+  const corsOptions: cors.CorsOptions = {
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, server-to-server)
+      if (!origin) return callback(null, true);
+
+      // Check allowed origins or any github.io subdomain
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.github.io') ||
+        origin.includes('localhost')
+      ) {
+        return callback(null, true);
+      }
+
+      callback(null, true); // Permissive in production for client flexibility
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Session-Id'],
+    optionsSuccessStatus: 200,
+  };
+
+  app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions));
+
+  // Direct root health endpoint
+  app.get('/health', (_req, res) => {
+    res.status(200).json({ status: 'ok' });
+  });
 
   // Request logging
   if (config.env !== 'test') {

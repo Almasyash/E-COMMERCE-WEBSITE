@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: apexcart-api
+    runtime: node
+    plan: free
+    region: oregon
+    rootDir: .
+    buildCommand: npm install && cd server && npm install && npx prisma generate --schema=../prisma/schema.prisma && npm run build
+    startCommand: cd server && npx prisma db push --schema=../prisma/schema.prisma --accept-data-loss && npx tsx ../prisma/seed.ts && node dist/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: CLIENT_URL
+        value: https://almasyash.github.io
+      - key: DATABASE_URL
+        fromDatabase:
+          name: apexcart-postgres
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 30d
+
+databases:
+  - name: apexcart-postgres
+    plan: free
+    region: oregon
+    databaseName: apexcart_production
+    user: apexcart_user

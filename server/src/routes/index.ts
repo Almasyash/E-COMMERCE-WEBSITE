@@ -13,7 +13,7 @@ const router = Router();
 
 router.get('/health', (_req, res) => {
   res.status(200).json({
-    status: 'healthy',
+    status: 'ok',
     timestamp: new Date().toISOString(),
     service: 'ApexCart E-Commerce Platform API',
     version: '1.0.0',
