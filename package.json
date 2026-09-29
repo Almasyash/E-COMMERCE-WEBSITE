@@ -1,0 +1,38 @@
+{
+  "name": "ecommerce-platform",
+  "version": "1.0.0",
+  "description": "Production-ready, modern, fully responsive e-commerce platform",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "dev:server": "npm run dev --workspace=server",
+    "dev:client": "npm run dev --workspace=client",
+    "build": "npm run build --workspace=server && npm run build --workspace=client",
+    "build:server": "npm run build --workspace=server",
+    "build:client": "npm run build --workspace=client",
+    "start": "npm run start --workspace=server",
+    "test": "npm run test --workspace=server",
+    "prisma:generate": "npm run prisma:generate --workspace=server",
+    "prisma:migrate": "npm run prisma:migrate --workspace=server",
+    "prisma:seed": "npm run prisma:seed --workspace=server",
+    "prisma:studio": "npm run prisma:studio --workspace=server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.4"
+  },
+  "keywords": [
+    "ecommerce",
+    "react",
+    "express",
+    "typescript",
+    "prisma",
+    "postgresql",
+    "tailwind"
+  ],
+  "author": "FS-Groupz",
+  "license": "MIT"
+}
