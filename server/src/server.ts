@@ -1,12 +1,18 @@
 import { createApp } from './app';
 import { config } from './config/environment';
 import prisma from './config/database';
+import { ensureDatabaseSetup } from './config/initDatabase';
 
 const app = createApp();
 
-const server = app.listen(config.port, () => {
+const server = app.listen(config.port, async () => {
   console.log(`🚀 ApexCart API Server running in [${config.env}] mode on port ${config.port}`);
   console.log(`📡 Healthcheck available at http://localhost:${config.port}/api/health`);
+
+  // Automatically check PostgreSQL tables and run schema push + seed if missing
+  ensureDatabaseSetup().catch((e) => {
+    console.error('Database setup error on startup:', e);
+  });
 });
 
 // Graceful shutdown handling

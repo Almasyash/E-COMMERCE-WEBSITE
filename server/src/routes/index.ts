@@ -20,6 +20,12 @@ router.get('/health', (_req, res) => {
   });
 });
 
+router.all('/setup-db', async (_req, res) => {
+  const { ensureDatabaseSetup } = await import('../config/initDatabase');
+  const result = await ensureDatabaseSetup();
+  res.status(result.success ? 200 : 500).json(result);
+});
+
 router.use('/auth', authRoutes);
 router.use('/products', productRoutes);
 router.use('/categories', categoryRoutes);
