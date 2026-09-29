@@ -16,7 +16,10 @@ export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const register = useAuthStore((state) => state.register);
 
-  const redirectUrl = searchParams.get('redirect') || '/';
+  const rawRedirect = searchParams.get('redirect') || '/';
+  const redirectUrl = rawRedirect.startsWith('/E-COMMERCE-WEBSITE')
+    ? rawRedirect.replace('/E-COMMERCE-WEBSITE', '') || '/'
+    : rawRedirect;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -14,9 +14,11 @@ const queryClient = new QueryClient({
 });
 
 export const App: React.FC = () => {
+  const basename = '/E-COMMERCE-WEBSITE';
+
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <AppRoutes />
       </BrowserRouter>
     </QueryClientProvider>

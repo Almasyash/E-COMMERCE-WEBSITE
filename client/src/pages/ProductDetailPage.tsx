@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import {
   Heart,
   ShoppingBag,
@@ -28,6 +28,7 @@ import { useAuthStore } from '../stores/authStore';
 export const ProductDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
@@ -164,7 +165,7 @@ export const ProductDetailPage: React.FC = () => {
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isAuthenticated) {
-      navigate('/login?redirect=' + encodeURIComponent(window.location.pathname));
+      navigate('/login?redirect=' + encodeURIComponent(location.pathname));
       return;
     }
     setSubmittingReview(true);
