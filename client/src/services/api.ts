@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios, { AxiosAdapter, InternalAxiosRequestConfig } from 'axios';
+import { handleMockRequest } from './mockBackend';
 
 // Get or generate guest session ID for guest carts
 const getOrCreateSessionId = (): string => {
@@ -10,8 +11,66 @@ const getOrCreateSessionId = (): string => {
   return sessionId;
 };
 
+// Check if running on GitHub Pages (or static host / mock mode)
+const isGitHubPages = typeof window !== 'undefined' && window.location.hostname.includes('github.io');
+const isExplicitMock = import.meta.env.VITE_USE_MOCK === 'true';
+const hasExplicitApiUrl = !!import.meta.env.VITE_API_BASE_URL;
+
+// We should use mock directly when on GitHub Pages or when no external API URL is specified
+const shouldUseMockDirectly = isGitHubPages || isExplicitMock || !hasExplicitApiUrl;
+
+const defaultAdapter = axios.getAdapter(axios.defaults.adapter);
+
+const customAdapter: AxiosAdapter = async (config: InternalAxiosRequestConfig) => {
+  if (shouldUseMockDirectly) {
+    const mockRes = await handleMockRequest(config);
+    if (mockRes.status >= 400) {
+      const error: any = new Error(mockRes.data?.message || 'Request failed');
+      error.response = mockRes;
+      throw error;
+    }
+    return {
+      data: mockRes.data,
+      status: mockRes.status || 200,
+      statusText: 'OK',
+      headers: {},
+      config,
+    };
+  }
+
+  try {
+    return await defaultAdapter(config);
+  } catch (err: any) {
+    // If backend is unavailable or returns 404/405/Network Error, fallback smoothly to mock
+    if (
+      !err.response ||
+      err.response.status === 404 ||
+      err.response.status === 405 ||
+      err.message === 'Network Error' ||
+      err.code === 'ERR_NETWORK'
+    ) {
+      console.warn('Backend server returned error, falling back to mock engine for:', config.url);
+      const mockRes = await handleMockRequest(config);
+      if (mockRes.status >= 400) {
+        const error: any = new Error(mockRes.data?.message || 'Request failed');
+        error.response = mockRes;
+        throw error;
+      }
+      return {
+        data: mockRes.data,
+        status: mockRes.status || 200,
+        statusText: 'OK',
+        headers: {},
+        config,
+      };
+    }
+    throw err;
+  }
+};
+
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  adapter: customAdapter,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -40,7 +99,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem('apexcart_refresh_token');
 
-      if (refreshToken) {
+      if (refreshToken && !refreshToken.startsWith('refresh_mock_')) {
         try {
           const res = await axios.post('/api/auth/refresh', { refreshToken });
           const { accessToken, refreshToken: newRefresh } = res.data.data;
