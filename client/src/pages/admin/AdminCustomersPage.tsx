@@ -36,14 +36,14 @@ export const AdminCustomersPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Customer Accounts</h1>
+        <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Customer Accounts</h1>
         <p className="text-xs text-slate-500 mt-0.5">
           View registered customer accounts, total orders placed, and manage account statuses
         </p>
       </div>
 
-      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs flex items-center gap-3">
-        <Search className="w-4 h-4 text-slate-400" />
+      <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-2xs flex items-center gap-3">
+        <Search className="w-4 h-4 text-slate-400 flex-shrink-0" />
         <input
           type="text"
           value={search}
@@ -66,66 +66,127 @@ export const AdminCustomersPage: React.FC = () => {
         ) : customers.length === 0 ? (
           <div className="py-16 text-center text-xs text-slate-500">No customers found.</div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="bg-slate-50/70 border-b border-slate-100 text-slate-400 font-bold uppercase text-[10px]">
-                  <th className="py-3 px-4">Customer Name</th>
-                  <th className="py-3 px-4">Email Address</th>
-                  <th className="py-3 px-4">Contact Phone</th>
-                  <th className="py-3 px-4">Orders Placed</th>
-                  <th className="py-3 px-4">Registered Date</th>
-                  <th className="py-3 px-4">Account Status</th>
-                  <th className="py-3 px-4 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {customers.map((c) => (
-                  <tr key={c.id} className="hover:bg-slate-50/50">
-                    <td className="py-3.5 px-4 font-bold text-slate-900 flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs flex-shrink-0">
-                        {c.firstName[0]}
-                      </div>
-                      <span>
-                        {c.firstName} {c.lastName}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-slate-600 font-medium">{c.email}</td>
-                    <td className="py-3.5 px-4 text-slate-500">{c.phone || 'N/A'}</td>
-                    <td className="py-3.5 px-4">
-                      <span className="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded-full text-[10px]">
-                        {c._count?.orders || 0} orders
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-slate-400">{formatDate(c.createdAt)}</td>
-                    <td className="py-3.5 px-4">
-                      <span
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                          c.isActive
-                            ? 'bg-emerald-50 text-emerald-700'
-                            : 'bg-rose-50 text-rose-700'
-                        }`}
-                      >
-                        {c.isActive ? 'Active' : 'Deactivated'}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-right">
-                      <button
-                        onClick={() => handleToggleStatus(c.id)}
-                        className={`px-2.5 py-1 rounded text-[11px] font-semibold transition-colors ${
-                          c.isActive
-                            ? 'bg-slate-100 hover:bg-rose-50 text-rose-600'
-                            : 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                        }`}
-                      >
-                        {c.isActive ? 'Deactivate' : 'Activate'}
-                      </button>
-                    </td>
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="bg-slate-50/70 border-b border-slate-100 text-slate-400 font-bold uppercase text-[10px]">
+                    <th className="py-3 px-4">Customer Name</th>
+                    <th className="py-3 px-4">Email Address</th>
+                    <th className="py-3 px-4">Contact Phone</th>
+                    <th className="py-3 px-4">Orders Placed</th>
+                    <th className="py-3 px-4">Registered Date</th>
+                    <th className="py-3 px-4">Account Status</th>
+                    <th className="py-3 px-4 text-right">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {customers.map((c) => (
+                    <tr key={c.id} className="hover:bg-slate-50/50">
+                      <td className="py-3.5 px-4 font-bold text-slate-900 flex items-center gap-2.5">
+                        <div className="w-7 h-7 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                          {c.firstName?.[0] || 'U'}
+                        </div>
+                        <span>
+                          {c.firstName} {c.lastName}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600 font-medium">{c.email}</td>
+                      <td className="py-3.5 px-4 text-slate-500">{c.phone || 'N/A'}</td>
+                      <td className="py-3.5 px-4">
+                        <span className="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded-full text-[10px]">
+                          {c._count?.orders || 0} orders
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-400">{formatDate(c.createdAt)}</td>
+                      <td className="py-3.5 px-4">
+                        <span
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                            c.isActive
+                              ? 'bg-emerald-50 text-emerald-700'
+                              : 'bg-rose-50 text-rose-700'
+                          }`}
+                        >
+                          {c.isActive ? 'Active' : 'Deactivated'}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-right">
+                        <button
+                          onClick={() => handleToggleStatus(c.id)}
+                          className={`px-2.5 py-1 rounded text-[11px] font-semibold transition-colors ${
+                            c.isActive
+                              ? 'bg-slate-100 hover:bg-rose-50 text-rose-600'
+                              : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                          }`}
+                        >
+                          {c.isActive ? 'Deactivate' : 'Activate'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden divide-y divide-slate-100">
+              {customers.map((c) => (
+                <div key={c.id} className="p-4 space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                        {c.firstName?.[0] || 'U'}
+                      </div>
+                      <div>
+                        <span className="font-bold text-slate-900 text-sm block">
+                          {c.firstName} {c.lastName}
+                        </span>
+                        <span className="text-xs text-slate-500 block truncate max-w-[200px]">
+                          {c.email}
+                        </span>
+                      </div>
+                    </div>
+                    <span
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        c.isActive
+                          ? 'bg-emerald-50 text-emerald-700'
+                          : 'bg-rose-50 text-rose-700'
+                      }`}
+                    >
+                      {c.isActive ? 'Active' : 'Deactivated'}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs text-slate-500 pt-1">
+                    <div>
+                      <span>Phone: </span>
+                      <span className="text-slate-700 font-medium">{c.phone || 'N/A'}</span>
+                    </div>
+                    <span className="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded-full text-[10px]">
+                      {c._count?.orders || 0} orders
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-[11px] text-slate-400">
+                      Joined {formatDate(c.createdAt)}
+                    </span>
+                    <button
+                      onClick={() => handleToggleStatus(c.id)}
+                      className={`px-3 py-1 rounded text-xs font-semibold transition-colors ${
+                        c.isActive
+                          ? 'bg-slate-100 hover:bg-rose-50 text-rose-600'
+                          : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                      }`}
+                    >
+                      {c.isActive ? 'Deactivate' : 'Activate'}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>

@@ -34,7 +34,7 @@ export const WishlistPage: React.FC = () => {
     <div className="bg-slate-50 min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="pb-6 mb-8 border-b border-slate-200/80">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             My Wishlist ({wishlistItems.length})
           </h1>
           <p className="text-xs text-slate-500 mt-1">Saved items you are watching for price drops or future orders</p>

@@ -80,7 +80,7 @@ export const AdminDashboardPage: React.FC = () => {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
         {statCards.map((card, i) => (
           <div
             key={i}
@@ -88,52 +88,56 @@ export const AdminDashboardPage: React.FC = () => {
           >
             <div className="flex items-center justify-between mb-2">
               <span className="text-[11px] font-bold uppercase text-slate-500">{card.label}</span>
-              <div className="p-1.5 bg-white rounded-lg shadow-2xs">{card.icon}</div>
+              <div className="p-1.5 bg-white rounded-lg shadow-2xs flex-shrink-0">{card.icon}</div>
             </div>
-            <div className="text-xl font-extrabold text-slate-900">{card.value}</div>
+            <div className="text-lg sm:text-xl font-extrabold text-slate-900 truncate" title={String(card.value)}>
+              {card.value}
+            </div>
           </div>
         ))}
       </div>
 
       {/* Monthly Sales Revenue Chart */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-2xs space-y-4">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-2xs space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-sm font-bold text-slate-900">Sales Overview (Recent Months)</h2>
             <p className="text-xs text-slate-400">Total gross revenue from fulfilled and paid orders</p>
           </div>
-          <TrendingUp className="w-5 h-5 text-emerald-600" />
+          <TrendingUp className="w-5 h-5 text-emerald-600 flex-shrink-0" />
         </div>
 
         {/* Visual Revenue Bars */}
-        <div className="h-44 flex items-end gap-6 pt-6 px-4 border-b border-slate-100">
-          {salesChart?.map((item: any, idx: number) => {
-            const maxRev = Math.max(...salesChart.map((s: any) => s.revenue), 100000);
-            const heightPct = Math.max(15, Math.round((item.revenue / maxRev) * 100));
+        <div className="overflow-x-auto pb-2">
+          <div className="h-44 min-w-[280px] flex items-end gap-3 sm:gap-6 pt-6 px-2 sm:px-4 border-b border-slate-100">
+            {salesChart?.map((item: any, idx: number) => {
+              const maxRev = Math.max(...salesChart.map((s: any) => s.revenue), 100000);
+              const heightPct = Math.max(15, Math.round((item.revenue / maxRev) * 100));
 
-            return (
-              <div key={idx} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
-                <span className="text-[10px] font-bold text-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
-                  {formatCurrency(item.revenue)}
-                </span>
-                <div
-                  className="w-full bg-emerald-500 group-hover:bg-emerald-600 rounded-t-lg transition-all"
-                  style={{ height: `${heightPct}%` }}
-                />
-                <span className="text-xs font-semibold text-slate-500">{item.name}</span>
-              </div>
-            );
-          })}
+              return (
+                <div key={idx} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+                  <span className="text-[10px] font-bold text-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {formatCurrency(item.revenue)}
+                  </span>
+                  <div
+                    className="w-full bg-emerald-500 group-hover:bg-emerald-600 rounded-t-lg transition-all"
+                    style={{ height: `${heightPct}%` }}
+                  />
+                  <span className="text-xs font-semibold text-slate-500">{item.name}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 
       {/* 2 Columns: Low Stock Alerts & Recent Orders */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Low Stock Products */}
-        <div className="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-2xs space-y-4">
+        <div className="lg:col-span-5 bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-2xs space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-amber-500" />
+              <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />
               <h2 className="text-sm font-bold text-slate-900">Low Stock Alerts</h2>
             </div>
             <Link
@@ -149,9 +153,9 @@ export const AdminDashboardPage: React.FC = () => {
               lowStockProducts.map((inv: any) => (
                 <div
                   key={inv.id}
-                  className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs"
+                  className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs gap-2"
                 >
-                  <div className="min-w-0 pr-2">
+                  <div className="min-w-0 flex-1">
                     <div className="font-bold text-slate-900 truncate">{inv.product?.title}</div>
                     <div className="text-[11px] text-slate-400">SKU: {inv.product?.sku}</div>
                   </div>
@@ -175,7 +179,7 @@ export const AdminDashboardPage: React.FC = () => {
         </div>
 
         {/* Recent Orders */}
-        <div className="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-2xs space-y-4">
+        <div className="lg:col-span-7 bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-2xs space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-bold text-slate-900">Recent Customer Orders</h2>
             <Link to="/admin/orders" className="text-xs font-semibold text-purple-600 hover:underline">
@@ -183,7 +187,8 @@ export const AdminDashboardPage: React.FC = () => {
             </Link>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Desktop Table View (>= 640px) */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="border-b border-slate-100 text-slate-400 font-bold uppercase text-[10px]">
@@ -220,6 +225,38 @@ export const AdminDashboardPage: React.FC = () => {
                 })}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card View (< 640px) */}
+          <div className="sm:hidden space-y-2.5">
+            {recentOrders?.map((ord: any) => {
+              const badge = getOrderStatusBadge(ord.status);
+              return (
+                <div
+                  key={ord.id}
+                  className="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-2 text-xs"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-extrabold text-slate-900">{ord.orderNumber}</span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${badge.bg}`}>
+                      {badge.label}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-slate-600">
+                    <span>{ord.user?.firstName || 'Guest'}</span>
+                    <span className="font-bold text-slate-900">{formatCurrency(ord.total)}</span>
+                  </div>
+                  <div className="pt-1 border-t border-slate-200/60 flex justify-end">
+                    <Link
+                      to="/admin/orders"
+                      className="text-xs font-bold text-purple-600 hover:underline"
+                    >
+                      View Details &rarr;
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

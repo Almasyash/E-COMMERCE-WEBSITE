@@ -25,6 +25,23 @@ export const CartDrawer: React.FC = () => {
   const [couponError, setCouponError] = useState<string | null>(null);
   const [isApplying, setIsApplying] = useState(false);
 
+  // Body scroll lock and ESC listener when cart is open
+  React.useEffect(() => {
+    if (isCartOpen) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') closeCart();
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isCartOpen, closeCart]);
+
   if (!isCartOpen) return null;
 
   const freeShippingThreshold = 2000;
@@ -64,7 +81,7 @@ export const CartDrawer: React.FC = () => {
         onClick={closeCart}
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
         <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between">
           {/* Header */}
           <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">

@@ -66,15 +66,15 @@ export const AdminOrdersPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Order Management</h1>
+        <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Order Management</h1>
         <p className="text-xs text-slate-500 mt-0.5">
           Process customer fulfillment, assign courier tracking numbers, and update delivery milestones
         </p>
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col sm:flex-row gap-3 items-center justify-between">
-        <div className="relative flex-1 w-full">
+      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+        <div className="relative flex-1">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
           <input
             type="text"
@@ -85,8 +85,8 @@ export const AdminOrdersPage: React.FC = () => {
           />
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <span className="text-xs text-slate-400 font-semibold whitespace-nowrap">Filter Status:</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-slate-400 font-semibold whitespace-nowrap hidden sm:inline">Filter Status:</span>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
@@ -104,7 +104,7 @@ export const AdminOrdersPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Orders Table */}
+      {/* Orders Table & Cards */}
       <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
         {loading ? (
           <div className="py-20 flex justify-center">
@@ -113,46 +113,131 @@ export const AdminOrdersPage: React.FC = () => {
         ) : orders.length === 0 ? (
           <div className="py-16 text-center text-xs text-slate-500">No orders found.</div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="bg-slate-50/70 border-b border-slate-100 text-slate-400 font-bold uppercase text-[10px]">
-                  <th className="py-3 px-4">Order ID & Date</th>
-                  <th className="py-3 px-4">Customer</th>
-                  <th className="py-3 px-4">Items</th>
-                  <th className="py-3 px-4">Total</th>
-                  <th className="py-3 px-4">Payment</th>
-                  <th className="py-3 px-4">Fulfillment Status</th>
-                  <th className="py-3 px-4 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {orders.map((order) => {
-                  const badge = getOrderStatusBadge(order.status);
-                  return (
-                    <tr key={order.id} className="hover:bg-slate-50/50">
-                      <td className="py-3.5 px-4">
-                        <span className="font-extrabold text-slate-900 block">
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="bg-slate-50/70 border-b border-slate-100 text-slate-400 font-bold uppercase text-[10px]">
+                    <th className="py-3 px-4">Order ID & Date</th>
+                    <th className="py-3 px-4">Customer</th>
+                    <th className="py-3 px-4">Items</th>
+                    <th className="py-3 px-4">Total</th>
+                    <th className="py-3 px-4">Payment</th>
+                    <th className="py-3 px-4">Fulfillment Status</th>
+                    <th className="py-3 px-4 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {orders.map((order) => {
+                    const badge = getOrderStatusBadge(order.status);
+                    return (
+                      <tr key={order.id} className="hover:bg-slate-50/50">
+                        <td className="py-3.5 px-4">
+                          <span className="font-extrabold text-slate-900 block">
+                            {order.orderNumber}
+                          </span>
+                          <span className="text-[11px] text-slate-400">
+                            {formatDateTime(order.createdAt)}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <span className="font-bold text-slate-900 block">
+                            {order.user ? `${order.user.firstName} ${order.user.lastName}` : 'Guest'}
+                          </span>
+                          <span className="text-[11px] text-slate-400">{order.user?.email}</span>
+                        </td>
+                        <td className="py-3.5 px-4 font-semibold text-slate-700">
+                          {order.items?.length || 0} item(s)
+                        </td>
+                        <td className="py-3.5 px-4 font-extrabold text-slate-900">
+                          {formatCurrency(order.total)}
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <span className="font-bold text-slate-800 block text-[11px]">
+                            {order.paymentMethod}
+                          </span>
+                          <span
+                            className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                              order.paymentStatus === 'PAID'
+                                ? 'bg-emerald-50 text-emerald-700'
+                                : 'bg-amber-50 text-amber-700'
+                            }`}
+                          >
+                            {order.paymentStatus}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <span
+                            className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${badge.bg}`}
+                          >
+                            {badge.label}
+                          </span>
+                          {order.trackingNumber && (
+                            <span className="text-[10px] text-slate-400 block mt-0.5 font-mono">
+                              AWB: {order.trackingNumber}
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3.5 px-4 text-right">
+                          <button
+                            onClick={() => handleOpenEdit(order)}
+                            className="px-2.5 py-1.5 bg-slate-100 hover:bg-purple-50 text-purple-700 font-semibold rounded-lg transition-colors"
+                          >
+                            Update Status
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden divide-y divide-slate-100">
+              {orders.map((order) => {
+                const badge = getOrderStatusBadge(order.status);
+                return (
+                  <div key={order.id} className="p-4 space-y-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <span className="font-extrabold text-slate-900 text-sm block">
                           {order.orderNumber}
                         </span>
                         <span className="text-[11px] text-slate-400">
                           {formatDateTime(order.createdAt)}
                         </span>
-                      </td>
-                      <td className="py-3.5 px-4">
-                        <span className="font-bold text-slate-900 block">
+                      </div>
+                      <span
+                        className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${badge.bg}`}
+                      >
+                        {badge.label}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs py-1 border-y border-slate-50">
+                      <div>
+                        <span className="font-bold text-slate-800 block">
                           {order.user ? `${order.user.firstName} ${order.user.lastName}` : 'Guest'}
                         </span>
-                        <span className="text-[11px] text-slate-400">{order.user?.email}</span>
-                      </td>
-                      <td className="py-3.5 px-4 font-semibold text-slate-700">
-                        {order.items?.length || 0} item(s)
-                      </td>
-                      <td className="py-3.5 px-4 font-extrabold text-slate-900">
-                        {formatCurrency(order.total)}
-                      </td>
-                      <td className="py-3.5 px-4">
-                        <span className="font-bold text-slate-800 block text-[11px]">
+                        <span className="text-[11px] text-slate-400 block truncate max-w-[200px]">
+                          {order.user?.email}
+                        </span>
+                      </div>
+                      <div className="text-right">
+                        <span className="font-extrabold text-slate-900 text-sm block">
+                          {formatCurrency(order.total)}
+                        </span>
+                        <span className="text-[11px] text-slate-500">
+                          {order.items?.length || 0} item(s)
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-semibold text-slate-600 text-[11px]">
                           {order.paymentMethod}
                         </span>
                         <span
@@ -164,33 +249,25 @@ export const AdminOrdersPage: React.FC = () => {
                         >
                           {order.paymentStatus}
                         </span>
-                      </td>
-                      <td className="py-3.5 px-4">
-                        <span
-                          className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${badge.bg}`}
-                        >
-                          {badge.label}
-                        </span>
-                        {order.trackingNumber && (
-                          <span className="text-[10px] text-slate-400 block mt-0.5 font-mono">
-                            AWB: {order.trackingNumber}
-                          </span>
-                        )}
-                      </td>
-                      <td className="py-3.5 px-4 text-right">
-                        <button
-                          onClick={() => handleOpenEdit(order)}
-                          className="px-2.5 py-1.5 bg-slate-100 hover:bg-purple-50 text-purple-700 font-semibold rounded-lg transition-colors"
-                        >
-                          Update Status
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                      </div>
+                      <button
+                        onClick={() => handleOpenEdit(order)}
+                        className="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold rounded-lg text-xs transition-colors"
+                      >
+                        Update Status
+                      </button>
+                    </div>
+
+                    {order.trackingNumber && (
+                      <div className="text-[10px] text-slate-500 font-mono bg-slate-50 px-2 py-1 rounded border border-slate-100">
+                        AWB: {order.trackingNumber}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </>
         )}
       </div>
 
@@ -198,14 +275,22 @@ export const AdminOrdersPage: React.FC = () => {
       {selectedOrder && (
         <div className="fixed inset-0 z-50 overflow-y-auto p-4 flex items-center justify-center">
           <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setSelectedOrder(null)} />
-          <div className="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 z-10 space-y-4">
-            <div>
-              <h3 className="text-base font-bold text-slate-900">
-                Update Order #{selectedOrder.orderNumber}
-              </h3>
-              <p className="text-xs text-slate-500">
-                Changes to status will immediately update customer tracking timelines and send push notifications.
-              </p>
+          <div className="relative bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-200 z-10 space-y-4">
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="text-base font-bold text-slate-900">
+                  Update Order #{selectedOrder.orderNumber}
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Changes to status will immediately update customer tracking timelines.
+                </p>
+              </div>
+              <button
+                onClick={() => setSelectedOrder(null)}
+                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-xl"
+              >
+                ✕
+              </button>
             </div>
 
             <form onSubmit={handleUpdateStatus} className="space-y-4">

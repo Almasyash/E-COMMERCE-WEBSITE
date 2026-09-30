@@ -75,9 +75,9 @@ export const CartPage: React.FC = () => {
   return (
     <div className="bg-slate-50 min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between pb-6 mb-8 border-b border-slate-200/80">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 mb-8 border-b border-slate-200/80 gap-3">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Shopping Cart
             </h1>
             <p className="text-xs text-slate-500 mt-1">
@@ -86,7 +86,7 @@ export const CartPage: React.FC = () => {
           </div>
           <button
             onClick={clearCart}
-            className="text-xs font-semibold text-rose-600 hover:text-rose-700 hover:underline"
+            className="text-xs font-semibold text-rose-600 hover:text-rose-700 hover:underline self-start sm:self-auto"
           >
             Clear Entire Cart
           </button>

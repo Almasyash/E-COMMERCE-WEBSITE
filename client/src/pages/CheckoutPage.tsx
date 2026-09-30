@@ -177,7 +177,7 @@ export const CheckoutPage: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Main Checkout Steps Form (Left 8 cols) */}
-          <div className="lg:col-span-8 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-6">
+          <div className="lg:col-span-8 bg-white p-4 sm:p-6 lg:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-6">
             {/* Step 1: Customer Contact Info */}
             {currentStep === 1 && (
               <div className="space-y-4">
@@ -187,11 +187,11 @@ export const CheckoutPage: React.FC = () => {
                 </div>
 
                 {!isAuthenticated && (
-                  <div className="p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900 flex items-center justify-between">
+                  <div className="p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span>Already have an ApexCart account?</span>
                     <Link
                       to="/login?redirect=/checkout"
-                      className="font-bold underline hover:text-blue-950"
+                      className="font-bold underline hover:text-blue-950 self-start sm:self-auto"
                     >
                       Sign In Now
                     </Link>
@@ -252,7 +252,7 @@ export const CheckoutPage: React.FC = () => {
                       }
                       setCurrentStep(2);
                     }}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-slate-900 hover:bg-emerald-600 text-white rounded-xl text-xs font-semibold transition-colors"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-slate-900 hover:bg-emerald-600 text-white rounded-xl text-xs font-semibold transition-colors"
                   >
                     <span>Continue to Shipping</span>
                     <ArrowRight className="w-4 h-4" />
@@ -297,7 +297,7 @@ export const CheckoutPage: React.FC = () => {
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                       <label className="text-xs font-semibold text-slate-700 block mb-1">City *</label>
                       <input
@@ -318,7 +318,7 @@ export const CheckoutPage: React.FC = () => {
                         className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-500"
                       />
                     </div>
-                    <div className="col-span-2 sm:col-span-1">
+                    <div>
                       <label className="text-xs font-semibold text-slate-700 block mb-1">
                         PIN Code *
                       </label>
@@ -528,11 +528,11 @@ export const CheckoutPage: React.FC = () => {
                   />
                 </div>
 
-                <div className="pt-4 flex justify-between">
+                <div className="pt-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
                   <button
                     type="button"
                     onClick={() => setCurrentStep(3)}
-                    className="flex items-center gap-1.5 px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                    className="flex items-center justify-center gap-1.5 px-4 py-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Back</span>
@@ -542,7 +542,7 @@ export const CheckoutPage: React.FC = () => {
                     type="button"
                     disabled={submitting}
                     onClick={handlePlaceOrder}
-                    className="flex items-center gap-2 px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-emerald-600/20 disabled:opacity-50 transition-all"
+                    className="flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-lg shadow-emerald-600/20 disabled:opacity-50 transition-all"
                   >
                     {submitting ? (
                       <>
@@ -552,7 +552,7 @@ export const CheckoutPage: React.FC = () => {
                     ) : (
                       <>
                         <ShieldCheck className="w-4 h-4" />
-                        <span>Place Order ({formatCurrency(estimatedTotal)})</span>
+                        <span className="truncate">Place Order ({formatCurrency(estimatedTotal)})</span>
                       </>
                     )}
                   </button>

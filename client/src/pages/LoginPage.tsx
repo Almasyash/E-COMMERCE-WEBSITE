@@ -42,10 +42,10 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-16 px-4 flex items-center justify-center">
-      <div className="max-w-md w-full bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-10 shadow-sm">
+    <div className="min-h-screen bg-slate-50 py-10 sm:py-16 px-3 sm:px-4 flex items-center justify-center">
+      <div className="max-w-md w-full bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-8 sm:p-10 shadow-sm">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-slate-900 to-emerald-600 flex items-center justify-center text-white font-bold shadow-xs">
               <ShoppingBag className="w-5 h-5" />
@@ -54,7 +54,7 @@ export const LoginPage: React.FC = () => {
               Apex<span className="text-emerald-600">Cart</span>
             </span>
           </Link>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Welcome Back</h1>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Welcome Back</h1>
           <p className="text-xs text-slate-500 mt-1">
             Sign in to access your orders, wishlist, and saved addresses
           </p>
@@ -65,7 +65,7 @@ export const LoginPage: React.FC = () => {
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2 text-center">
             One-Click Demo Credentials
           </span>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
               type="button"
               onClick={() => handleQuickLogin('rahul.sharma@example.com', 'Customer@123456')}

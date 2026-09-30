@@ -42,9 +42,9 @@ export const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-16 px-4 flex items-center justify-center">
-      <div className="max-w-md w-full bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-10 shadow-sm">
-        <div className="text-center mb-8">
+    <div className="min-h-screen bg-slate-50 py-10 sm:py-16 px-3 sm:px-4 flex items-center justify-center">
+      <div className="max-w-md w-full bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-8 sm:p-10 shadow-sm">
+        <div className="text-center mb-6 sm:mb-8">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-slate-900 to-emerald-600 flex items-center justify-center text-white font-bold shadow-xs">
               <ShoppingBag className="w-5 h-5" />
@@ -53,7 +53,7 @@ export const RegisterPage: React.FC = () => {
               Apex<span className="text-emerald-600">Cart</span>
             </span>
           </Link>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Create Account</h1>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Create Account</h1>
           <p className="text-xs text-slate-500 mt-1">
             Join 50,000+ creators and professionals on ApexCart
           </p>
@@ -66,7 +66,7 @@ export const RegisterPage: React.FC = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">First Name *</label>
               <div className="relative">

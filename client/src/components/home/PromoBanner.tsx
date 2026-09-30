@@ -6,13 +6,13 @@ export const PromoBanner: React.FC = () => {
   return (
     <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-950 p-8 sm:p-12 text-white shadow-xl">
+        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-950 p-5 sm:p-8 sm:p-12 text-white shadow-xl">
           <div className="relative z-10 max-w-xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold mb-4 border border-emerald-500/30">
               <Sparkles className="w-3.5 h-3.5" />
               <span>UPGRADE YOUR DESK SETUP</span>
             </div>
-            <h3 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+            <h3 className="text-xl sm:text-4xl font-extrabold tracking-tight leading-tight">
               Ergonomic Workstations & Motorized Standing Desks
             </h3>
             <p className="text-slate-300 text-xs sm:text-sm mt-3 leading-relaxed">

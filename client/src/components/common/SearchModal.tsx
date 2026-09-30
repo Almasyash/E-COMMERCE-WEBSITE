@@ -76,7 +76,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto p-4 sm:p-6 md:p-20">
+    <div className="fixed inset-0 z-50 overflow-y-auto p-3 sm:p-6 md:p-20">
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
@@ -85,22 +85,22 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
 
       {/* Dialog */}
       <div className="relative mx-auto max-w-2xl transform overflow-hidden rounded-2xl bg-white shadow-2xl transition-all border border-slate-200">
-        <form onSubmit={handleSubmit} className="relative flex items-center border-b border-slate-100 px-4">
-          <Search className="w-5 h-5 text-slate-400 mr-3" />
+        <form onSubmit={handleSubmit} className="relative flex items-center border-b border-slate-100 px-3 sm:px-4">
+          <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 mr-2 sm:mr-3 flex-shrink-0" />
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search Sony headphones, Apple MacBook, ergonomic desk..."
-            className="w-full py-4 text-sm sm:text-base text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent"
+            placeholder="Search Sony, MacBook, desk..."
+            className="w-full py-3.5 sm:py-4 text-xs sm:text-base text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent min-w-0"
           />
-          {loading && <Loader2 className="w-5 h-5 text-emerald-600 animate-spin mr-2" />}
+          {loading && <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600 animate-spin mr-2 flex-shrink-0" />}
           {query && (
             <button
               type="button"
               onClick={() => setQuery('')}
-              className="p-1 rounded-full text-slate-400 hover:text-slate-600 mr-2"
+              className="p-1 rounded-full text-slate-400 hover:text-slate-600 mr-1.5 flex-shrink-0"
             >
               <X className="w-4 h-4" />
             </button>
@@ -108,14 +108,16 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
           <button
             type="button"
             onClick={onClose}
-            className="text-xs font-semibold px-2 py-1 rounded bg-slate-100 text-slate-600 hover:bg-slate-200"
+            className="p-1.5 sm:px-2 sm:py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-semibold flex items-center gap-1 flex-shrink-0"
+            aria-label="Close search"
           >
-            ESC
+            <X className="w-3.5 h-3.5 sm:hidden" />
+            <span className="hidden sm:inline">ESC</span>
           </button>
         </form>
 
         {/* Results */}
-        <div className="max-h-96 overflow-y-auto p-4">
+        <div className="max-h-96 overflow-y-auto p-3 sm:p-4">
           {query.trim().length >= 2 ? (
             suggestions.length > 0 ? (
               <div className="space-y-2">
@@ -126,21 +128,21 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                   <div
                     key={item.id}
                     onClick={() => handleSelectProduct(item.slug)}
-                    className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors group"
+                    className="flex items-center gap-2.5 sm:gap-3 p-2 sm:p-2.5 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors group"
                   >
                     <img
                       src={item.images?.[0]?.url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=150&q=80'}
                       alt={item.title}
-                      className="w-12 h-12 rounded-lg object-cover bg-slate-100 flex-shrink-0"
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg object-cover bg-slate-100 flex-shrink-0"
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs text-emerald-600 font-semibold">{item.brand}</div>
-                      <div className="text-sm font-medium text-slate-800 truncate group-hover:text-emerald-600">
+                      <div className="text-[10px] sm:text-xs text-emerald-600 font-semibold">{item.brand}</div>
+                      <div className="text-xs sm:text-sm font-medium text-slate-800 truncate group-hover:text-emerald-600">
                         {item.title}
                       </div>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <div className="text-sm font-bold text-slate-900">
+                      <div className="text-xs sm:text-sm font-bold text-slate-900 whitespace-nowrap">
                         {formatCurrency(item.salePrice || item.price)}
                       </div>
                     </div>

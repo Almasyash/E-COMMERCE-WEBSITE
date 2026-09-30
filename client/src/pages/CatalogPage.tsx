@@ -119,6 +119,38 @@ export const CatalogPage: React.FC = () => {
     setSearchParams(next);
   };
 
+  // Body scroll lock and ESC listener when mobile filters open
+  useEffect(() => {
+    if (mobileFilterOpen) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setMobileFilterOpen(false);
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [mobileFilterOpen]);
+
+  const getVisiblePages = (current: number, total: number) => {
+    if (total <= 5) {
+      return Array.from({ length: total }, (_, i) => i + 1);
+    }
+    const pages: (number | string)[] = [];
+    if (current <= 3) {
+      pages.push(1, 2, 3, 4, '...', total);
+    } else if (current >= total - 2) {
+      pages.push(1, '...', total - 3, total - 2, total - 1, total);
+    } else {
+      pages.push(1, '...', current - 1, current, current + 1, '...', total);
+    }
+    return pages;
+  };
+
   const clearAllFilters = () => {
     setSearchParams(new URLSearchParams());
   };
@@ -394,7 +426,7 @@ export const CatalogPage: React.FC = () => {
 
                 {/* Pagination Controls */}
                 {pagination.totalPages > 1 && (
-                  <div className="flex items-center justify-center gap-2 pt-12 pb-6">
+                  <div className="flex items-center justify-center gap-1.5 sm:gap-2 pt-12 pb-6 flex-wrap">
                     <button
                       onClick={() => updateParam('page', String(currentPage - 1))}
                       disabled={!pagination.hasPrev}
@@ -404,14 +436,23 @@ export const CatalogPage: React.FC = () => {
                       <ChevronLeft className="w-4 h-4" />
                     </button>
 
-                    {[...Array(pagination.totalPages)].map((_, i) => {
-                      const pageNum = i + 1;
+                    {getVisiblePages(currentPage, pagination.totalPages).map((pageNum, idx) => {
+                      if (pageNum === '...') {
+                        return (
+                          <span
+                            key={`ellipsis-${idx}`}
+                            className="w-8 h-8 flex items-center justify-center text-xs text-slate-400 select-none"
+                          >
+                            ...
+                          </span>
+                        );
+                      }
                       const isCurrent = pageNum === currentPage;
                       return (
                         <button
-                          key={pageNum}
+                          key={`page-${pageNum}`}
                           onClick={() => updateParam('page', String(pageNum))}
-                          className={`w-9 h-9 rounded-xl text-xs font-bold transition-colors ${
+                          className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl text-xs font-bold transition-colors ${
                             isCurrent
                               ? 'bg-slate-900 text-white shadow-xs'
                               : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
@@ -445,8 +486,8 @@ export const CatalogPage: React.FC = () => {
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
             onClick={() => setMobileFilterOpen(false)}
           />
-          <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-            <div className="w-screen max-w-sm bg-white p-6 shadow-2xl flex flex-col justify-between overflow-y-auto">
+          <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
+            <div className="w-screen max-w-sm bg-white p-5 sm:p-6 shadow-2xl flex flex-col justify-between overflow-y-auto">
               <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                 <h2 className="text-base font-bold text-slate-900">Filters</h2>
                 <button

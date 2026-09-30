@@ -40,7 +40,7 @@ export const OrdersPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between pb-6 mb-8 border-b border-slate-200/80">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Order History & Tracking
             </h1>
             <p className="text-xs text-slate-500 mt-1">
@@ -134,7 +134,7 @@ export const OrdersPage: React.FC = () => {
                   </div>
 
                   {/* Actions */}
-                  <div className="pt-2 flex items-center justify-between">
+                  <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span className="text-xs text-slate-500">
                       Payment: <strong className="text-slate-800">{order.paymentMethod}</strong> (
                       {order.paymentStatus})
@@ -142,7 +142,7 @@ export const OrdersPage: React.FC = () => {
 
                     <Link
                       to={`/account/orders/${order.id}`}
-                      className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-700 hover:underline"
+                      className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-700 hover:underline self-start sm:self-auto"
                     >
                       <span>Track Order Timeline</span>
                       <ChevronRight className="w-4 h-4" />

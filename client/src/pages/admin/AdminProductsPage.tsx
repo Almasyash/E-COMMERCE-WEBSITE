@@ -186,7 +186,7 @@ export const AdminProductsPage: React.FC = () => {
         )}
       </div>
 
-      {/* Products Table */}
+      {/* Products Table & Mobile Cards */}
       <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
         {loading ? (
           <div className="py-20 flex justify-center">
@@ -195,109 +195,204 @@ export const AdminProductsPage: React.FC = () => {
         ) : products.length === 0 ? (
           <div className="py-16 text-center text-xs text-slate-500">No products found.</div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="bg-slate-50/70 border-b border-slate-100 text-slate-400 font-bold uppercase text-[10px]">
-                  <th className="py-3 px-4">Product Details</th>
-                  <th className="py-3 px-4">Brand</th>
-                  <th className="py-3 px-4">Price / Sale</th>
-                  <th className="py-3 px-4">Stock</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {products.map((prod) => (
-                  <tr key={prod.id} className="hover:bg-slate-50/50">
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={
-                            prod.images?.[0]?.url ||
-                            'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=100&q=80'
-                          }
-                          alt=""
-                          className="w-10 h-10 rounded-lg object-cover bg-slate-100 flex-shrink-0"
-                        />
-                        <div className="min-w-0 max-w-xs">
-                          <span className="font-bold text-slate-900 block truncate">
-                            {prod.title}
-                          </span>
-                          <span className="text-[10px] text-slate-400 font-medium">
-                            SKU: {prod.sku}
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-3 px-4 font-semibold text-slate-700">{prod.brand}</td>
-                    <td className="py-3 px-4">
-                      <div className="font-bold text-slate-900">
-                        {formatCurrency(prod.salePrice || prod.price)}
-                      </div>
-                      {prod.salePrice && (
-                        <div className="text-[10px] text-slate-400 line-through">
-                          {formatCurrency(prod.price)}
-                        </div>
-                      )}
-                    </td>
-                    <td className="py-3 px-4">
-                      <span
-                        className={`font-bold px-2 py-0.5 rounded-full text-[10px] ${
-                          (prod.inventory?.quantity ?? 0) <= 5
-                            ? 'bg-amber-100 text-amber-700'
-                            : 'bg-slate-100 text-slate-700'
-                        }`}
-                      >
-                        {prod.inventory?.quantity ?? 0} in stock
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <button
-                        onClick={() => handleTogglePublish(prod)}
-                        className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border transition-colors ${
-                          prod.isPublished
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                            : 'bg-slate-100 text-slate-600 border-slate-200'
-                        }`}
-                      >
-                        {prod.isPublished ? 'Published' : 'Draft / Hidden'}
-                      </button>
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => handleOpenModal(prod)}
-                          className="p-1.5 text-slate-500 hover:text-purple-600 rounded-lg hover:bg-purple-50"
-                          title="Edit"
-                        >
-                          <Edit2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteProduct(prod.id, prod.title)}
-                          className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50"
-                          title="Delete"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
+          <>
+            {/* Desktop Table (>= 768px) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="bg-slate-50/70 border-b border-slate-100 text-slate-400 font-bold uppercase text-[10px]">
+                    <th className="py-3 px-4">Product Details</th>
+                    <th className="py-3 px-4">Brand</th>
+                    <th className="py-3 px-4">Price / Sale</th>
+                    <th className="py-3 px-4">Stock</th>
+                    <th className="py-3 px-4">Status</th>
+                    <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {products.map((prod) => (
+                    <tr key={prod.id} className="hover:bg-slate-50/50">
+                      <td className="py-3 px-4">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={
+                              prod.images?.[0]?.url ||
+                              'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=100&q=80'
+                            }
+                            alt=""
+                            className="w-10 h-10 rounded-lg object-cover bg-slate-100 flex-shrink-0"
+                          />
+                          <div className="min-w-0 max-w-xs">
+                            <span className="font-bold text-slate-900 block truncate">
+                              {prod.title}
+                            </span>
+                            <span className="text-[10px] text-slate-400 font-medium">
+                              SKU: {prod.sku}
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-slate-700">{prod.brand}</td>
+                      <td className="py-3 px-4">
+                        <div className="font-bold text-slate-900">
+                          {formatCurrency(prod.salePrice || prod.price)}
+                        </div>
+                        {prod.salePrice && (
+                          <div className="text-[10px] text-slate-400 line-through">
+                            {formatCurrency(prod.price)}
+                          </div>
+                        )}
+                      </td>
+                      <td className="py-3 px-4">
+                        <span
+                          className={`font-bold px-2 py-0.5 rounded-full text-[10px] ${
+                            (prod.inventory?.quantity ?? 0) <= 5
+                              ? 'bg-amber-100 text-amber-700'
+                              : 'bg-slate-100 text-slate-700'
+                          }`}
+                        >
+                          {prod.inventory?.quantity ?? 0} in stock
+                        </span>
+                      </td>
+                      <td className="py-3 px-4">
+                        <button
+                          onClick={() => handleTogglePublish(prod)}
+                          className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border transition-colors ${
+                            prod.isPublished
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                              : 'bg-slate-100 text-slate-600 border-slate-200'
+                          }`}
+                        >
+                          {prod.isPublished ? 'Published' : 'Draft / Hidden'}
+                        </button>
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => handleOpenModal(prod)}
+                            className="p-1.5 text-slate-500 hover:text-purple-600 rounded-lg hover:bg-purple-50"
+                            title="Edit"
+                          >
+                            <Edit2 className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteProduct(prod.id, prod.title)}
+                            className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50"
+                            title="Delete"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card List (< 768px) */}
+            <div className="md:hidden divide-y divide-slate-100">
+              {products.map((prod) => (
+                <div key={prod.id} className="p-4 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <img
+                      src={
+                        prod.images?.[0]?.url ||
+                        'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=100&q=80'
+                      }
+                      alt=""
+                      className="w-14 h-14 rounded-xl object-cover bg-slate-100 flex-shrink-0"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[11px] font-bold uppercase text-purple-600">
+                        {prod.brand}
+                      </div>
+                      <h4 className="font-bold text-slate-900 text-xs sm:text-sm line-clamp-2">
+                        {prod.title}
+                      </h4>
+                      <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
+                        SKU: {prod.sku}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-100 text-xs">
+                    <div>
+                      <span className="font-extrabold text-slate-900">
+                        {formatCurrency(prod.salePrice || prod.price)}
+                      </span>
+                      {prod.salePrice && (
+                        <span className="text-[10px] text-slate-400 line-through ml-1.5">
+                          {formatCurrency(prod.price)}
+                        </span>
+                      )}
+                    </div>
+                    <span
+                      className={`font-bold px-2 py-0.5 rounded-full text-[10px] ${
+                        (prod.inventory?.quantity ?? 0) <= 5
+                          ? 'bg-amber-100 text-amber-700'
+                          : 'bg-slate-100 text-slate-700'
+                      }`}
+                    >
+                      {prod.inventory?.quantity ?? 0} in stock
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100">
+                    <button
+                      onClick={() => handleTogglePublish(prod)}
+                      className={`text-[10px] font-bold px-2.5 py-1 rounded-full border transition-colors ${
+                        prod.isPublished
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : 'bg-slate-100 text-slate-600 border-slate-200'
+                      }`}
+                    >
+                      {prod.isPublished ? 'Published' : 'Draft / Hidden'}
+                    </button>
+
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleOpenModal(prod)}
+                        className="flex items-center gap-1 px-2.5 py-1.5 bg-slate-100 hover:bg-purple-50 text-slate-700 hover:text-purple-700 rounded-lg text-xs font-semibold"
+                        title="Edit"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                        <span>Edit</span>
+                      </button>
+                      <button
+                        onClick={() => handleDeleteProduct(prod.id, prod.title)}
+                        className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 
       {/* Add / Edit Product Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto p-4 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 overflow-y-auto p-3 sm:p-4 flex items-center justify-center">
           <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setModalOpen(false)} />
-          <div className="relative bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 z-10 max-h-[90vh] overflow-y-auto">
-            <h3 className="text-lg font-bold text-slate-900 mb-4">
-              {editingId ? 'Edit Product' : 'Create New Product'}
-            </h3>
+          <div className="relative bg-white rounded-3xl max-w-xl w-full p-5 sm:p-8 shadow-2xl border border-slate-200 z-10 max-h-[92vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                {editingId ? 'Edit Product' : 'Create New Product'}
+              </h3>
+              <button
+                type="button"
+                onClick={() => setModalOpen(false)}
+                className="p-1.5 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
             <form onSubmit={handleSaveProduct} className="space-y-4">
               <div>
@@ -314,7 +409,7 @@ export const AdminProductsPage: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-semibold text-slate-700 block mb-1">Brand *</label>
                   <input
@@ -338,7 +433,7 @@ export const AdminProductsPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="text-xs font-semibold text-slate-700 block mb-1">
                     Price (₹) *
@@ -419,7 +514,7 @@ export const AdminProductsPage: React.FC = () => {
                 />
               </div>
 
-              <div className="flex gap-4 pt-1">
+              <div className="flex flex-wrap gap-4 pt-1">
                 <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
                   <input
                     type="checkbox"

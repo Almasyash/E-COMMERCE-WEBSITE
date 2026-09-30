@@ -39,7 +39,7 @@ export const Testimonials: React.FC = () => {
           <span className="text-xs font-bold tracking-wider uppercase text-emerald-600">
             Real Customer Stories
           </span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
+          <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
             Trusted by 50,000+ Creators & Engineers
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-2">
@@ -51,7 +51,7 @@ export const Testimonials: React.FC = () => {
           {reviews.map((item, idx) => (
             <div
               key={idx}
-              className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between"
+              className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center gap-1 mb-3">
@@ -64,22 +64,22 @@ export const Testimonials: React.FC = () => {
                 </p>
               </div>
 
-              <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
+              <div className="pt-4 sm:pt-6 mt-4 sm:mt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-3">
                   <img
                     src={item.avatar}
                     alt={item.name}
-                    className="w-10 h-10 rounded-full object-cover border border-slate-200"
+                    className="w-10 h-10 rounded-full object-cover border border-slate-200 flex-shrink-0"
                   />
                   <div>
                     <div className="text-xs font-bold text-slate-900 flex items-center gap-1">
                       <span>{item.name}</span>
-                      <CheckCircle className="w-3.5 h-3.5 text-emerald-500 fill-emerald-100" />
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-500 fill-emerald-100 flex-shrink-0" />
                     </div>
                     <div className="text-[11px] text-slate-400">{item.role}</div>
                   </div>
                 </div>
-                <span className="text-[10px] font-semibold bg-slate-100 text-slate-600 px-2 py-1 rounded-md max-w-[100px] truncate">
+                <span className="text-[10px] font-semibold bg-slate-100 text-slate-600 px-2 py-1 rounded-md max-w-[120px] truncate">
                   {item.product}
                 </span>
               </div>

@@ -366,8 +366,8 @@ export const ProductDetailPage: React.FC = () => {
 
                 {/* Quantity & CTA Buttons */}
                 <div className="space-y-3">
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-slate-50 flex-shrink-0">
                       <button
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
                         disabled={quantity <= 1 || !inStock}
@@ -375,7 +375,7 @@ export const ProductDetailPage: React.FC = () => {
                       >
                         <Minus className="w-4 h-4" />
                       </button>
-                      <span className="px-4 text-xs font-bold text-slate-900">{quantity}</span>
+                      <span className="px-3 sm:px-4 text-xs font-bold text-slate-900">{quantity}</span>
                       <button
                         onClick={() => setQuantity(Math.min(availableStock, quantity + 1))}
                         disabled={quantity >= availableStock || !inStock}
@@ -388,36 +388,36 @@ export const ProductDetailPage: React.FC = () => {
                     <button
                       onClick={handleAddToCart}
                       disabled={!inStock || addingToCart}
-                      className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-slate-900 hover:bg-emerald-600 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md hover:shadow-lg disabled:opacity-50 transition-all duration-200"
+                      className="flex-1 flex items-center justify-center gap-2 py-3 px-3 sm:px-6 bg-slate-900 hover:bg-emerald-600 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md hover:shadow-lg disabled:opacity-50 transition-all duration-200"
                     >
-                      <ShoppingBag className="w-4 h-4" />
-                      <span>{addingToCart ? 'Adding...' : 'Add to Cart'}</span>
+                      <ShoppingBag className="w-4 h-4 flex-shrink-0" />
+                      <span className="truncate">{addingToCart ? 'Adding...' : 'Add to Cart'}</span>
                     </button>
                   </div>
 
                   <button
                     onClick={handleBuyNow}
                     disabled={!inStock}
-                    className="w-full flex items-center justify-center gap-2 py-3 px-6 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md hover:shadow-lg disabled:opacity-50 transition-all duration-200"
+                    className="w-full flex items-center justify-center gap-2 py-3 px-4 sm:px-6 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md hover:shadow-lg disabled:opacity-50 transition-all duration-200"
                   >
-                    <Zap className="w-4 h-4 fill-white" />
-                    <span>Buy Now with 1-Click Checkout</span>
+                    <Zap className="w-4 h-4 fill-white flex-shrink-0" />
+                    <span className="truncate">Buy Now with 1-Click Checkout</span>
                   </button>
                 </div>
               </div>
 
               {/* Guarantee perks */}
-              <div className="pt-6 mt-6 border-t border-slate-100 grid grid-cols-3 gap-2 text-center text-slate-500 text-[11px]">
-                <div className="flex flex-col items-center gap-1">
-                  <Truck className="w-4 h-4 text-emerald-600" />
+              <div className="pt-6 mt-6 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-2 text-slate-500 text-[11px]">
+                <div className="flex sm:flex-col items-center sm:justify-center gap-2 sm:gap-1 text-left sm:text-center p-2 rounded-xl bg-slate-50/70 sm:bg-transparent">
+                  <Truck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                   <span>Free Express Delivery</span>
                 </div>
-                <div className="flex flex-col items-center gap-1">
-                  <RotateCcw className="w-4 h-4 text-blue-600" />
+                <div className="flex sm:flex-col items-center sm:justify-center gap-2 sm:gap-1 text-left sm:text-center p-2 rounded-xl bg-slate-50/70 sm:bg-transparent">
+                  <RotateCcw className="w-4 h-4 text-blue-600 flex-shrink-0" />
                   <span>7-Day Return Policy</span>
                 </div>
-                <div className="flex flex-col items-center gap-1">
-                  <ShieldCheck className="w-4 h-4 text-amber-600" />
+                <div className="flex sm:flex-col items-center sm:justify-center gap-2 sm:gap-1 text-left sm:text-center p-2 rounded-xl bg-slate-50/70 sm:bg-transparent">
+                  <ShieldCheck className="w-4 h-4 text-amber-600 flex-shrink-0" />
                   <span>1-Yr Official Warranty</span>
                 </div>
               </div>
@@ -426,12 +426,12 @@ export const ProductDetailPage: React.FC = () => {
         </div>
 
         {/* Tabbed Info: Specs, Shipping, Reviews */}
-        <div id="reviews" className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 mb-12">
+        <div id="reviews" className="bg-white rounded-3xl border border-slate-200/80 p-4 sm:p-6 lg:p-8 mb-8 sm:mb-12">
           {/* Tabs */}
-          <div className="flex border-b border-slate-200 gap-8 mb-6">
+          <div className="flex border-b border-slate-200 gap-4 sm:gap-8 mb-6 overflow-x-auto scrollbar-none whitespace-nowrap -mx-4 px-4 sm:mx-0 sm:px-0">
             <button
               onClick={() => setActiveTab('specs')}
-              className={`pb-3 text-xs sm:text-sm font-bold transition-colors border-b-2 ${
+              className={`pb-3 text-xs sm:text-sm font-bold transition-colors border-b-2 flex-shrink-0 whitespace-nowrap ${
                 activeTab === 'specs'
                   ? 'border-emerald-600 text-emerald-600'
                   : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -441,7 +441,7 @@ export const ProductDetailPage: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('shipping')}
-              className={`pb-3 text-xs sm:text-sm font-bold transition-colors border-b-2 ${
+              className={`pb-3 text-xs sm:text-sm font-bold transition-colors border-b-2 flex-shrink-0 whitespace-nowrap ${
                 activeTab === 'shipping'
                   ? 'border-emerald-600 text-emerald-600'
                   : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -451,7 +451,7 @@ export const ProductDetailPage: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('reviews')}
-              className={`pb-3 text-xs sm:text-sm font-bold transition-colors border-b-2 ${
+              className={`pb-3 text-xs sm:text-sm font-bold transition-colors border-b-2 flex-shrink-0 whitespace-nowrap ${
                 activeTab === 'reviews'
                   ? 'border-emerald-600 text-emerald-600'
                   : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -573,11 +573,21 @@ export const ProductDetailPage: React.FC = () => {
       {reviewModalOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto p-4 flex items-center justify-center">
           <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setReviewModalOpen(false)} />
-          <div className="relative bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 z-10">
-            <h3 className="text-base font-bold text-slate-900 mb-1">Review {product.title}</h3>
-            <p className="text-xs text-slate-500 mb-4">
-              Share your feedback with the community. Verified purchase is required to submit reviews.
-            </p>
+          <div className="relative bg-white rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-200 z-10 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <h3 className="text-base font-bold text-slate-900">Review {product.title}</h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Share your feedback with the community. Verified purchase is required to submit reviews.
+                </p>
+              </div>
+              <button
+                onClick={() => setReviewModalOpen(false)}
+                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-xl"
+              >
+                ✕
+              </button>
+            </div>
 
             <form onSubmit={handleSubmitReview} className="space-y-4">
               <div>

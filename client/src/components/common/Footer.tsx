@@ -66,12 +66,12 @@ export const Footer: React.FC = () => {
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
               ApexCart is a premier curated destination for cutting-edge electronics, developer gear, ergonomic furniture, and modern lifestyle essentials. Engineered for speed, authenticity, and peace of mind.
             </p>
-            <div className="flex items-center gap-2 pt-2 text-slate-300">
-              <span className="font-semibold text-white">Accepted Payments:</span>
-              <span className="text-xs bg-slate-800 px-2 py-1 rounded">Razorpay</span>
-              <span className="text-xs bg-slate-800 px-2 py-1 rounded">UPI</span>
-              <span className="text-xs bg-slate-800 px-2 py-1 rounded">Cards</span>
-              <span className="text-xs bg-slate-800 px-2 py-1 rounded">COD</span>
+            <div className="flex items-center flex-wrap gap-2 pt-2 text-slate-300">
+              <span className="font-semibold text-white text-xs">Accepted Payments:</span>
+              <span className="text-[11px] bg-slate-800 px-2 py-1 rounded border border-slate-700/60">Razorpay</span>
+              <span className="text-[11px] bg-slate-800 px-2 py-1 rounded border border-slate-700/60">UPI</span>
+              <span className="text-[11px] bg-slate-800 px-2 py-1 rounded border border-slate-700/60">Cards</span>
+              <span className="text-[11px] bg-slate-800 px-2 py-1 rounded border border-slate-700/60">COD</span>
             </div>
           </div>
 
@@ -173,11 +173,11 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-xs">
+        <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-xs text-center sm:text-left">
           <div>
             © {new Date().getFullYear()} ApexCart Inc. All rights reserved. Built with React, Node, Express, & PostgreSQL.
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-6">
             <span className="hover:text-slate-400 cursor-pointer">Privacy Policy</span>
             <span className="hover:text-slate-400 cursor-pointer">Terms of Service</span>
             <span className="hover:text-slate-400 cursor-pointer">Security Safeguards</span>

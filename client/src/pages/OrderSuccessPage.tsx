@@ -30,27 +30,27 @@ export const OrderSuccessPage: React.FC = () => {
   const estimatedDelivery = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000);
 
   return (
-    <div className="bg-slate-50 min-h-screen py-16 px-4">
-      <div className="max-w-2xl mx-auto bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-12 shadow-sm text-center">
+    <div className="bg-slate-50 min-h-screen py-10 sm:py-16 px-3 sm:px-4">
+      <div className="max-w-2xl mx-auto bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-8 sm:p-12 shadow-sm text-center">
         {/* Success Icon */}
-        <div className="w-20 h-20 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-6 shadow-xs animate-in zoom-in-75 duration-300">
-          <CheckCircle2 className="w-12 h-12" />
+        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-xs animate-in zoom-in-75 duration-300">
+          <CheckCircle2 className="w-10 h-10 sm:w-12 sm:h-12" />
         </div>
 
         <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
           Payment & Order Confirmed
         </span>
 
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-3 mb-2">
+        <h1 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-3 mb-2">
           Thank you for your order!
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto mb-8">
+        <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto mb-6 sm:mb-8">
           We have received your order and sent a confirmation receipt to your email address. Our team is already preparing your package for priority dispatch.
         </p>
 
         {/* Order Details Card */}
         {order && (
-          <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 text-left space-y-4 mb-8">
+          <div className="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-100 text-left space-y-3 sm:space-y-4 mb-6 sm:mb-8">
             <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-200/80">
               <div>
                 <span className="text-[10px] text-slate-400 font-bold uppercase block">Order Number</span>
@@ -62,7 +62,7 @@ export const OrderSuccessPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs">
               <div>
                 <span className="text-[10px] text-slate-400 font-bold uppercase block">
                   Estimated Delivery
@@ -79,7 +79,7 @@ export const OrderSuccessPage: React.FC = () => {
             </div>
 
             {/* Items count */}
-            <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
+            <div className="pt-2 border-t border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs text-slate-600">
               <span>Items in package: {order.items.length} item(s)</span>
               <span className="font-semibold text-slate-800">Paid via {order.paymentMethod}</span>
             </div>

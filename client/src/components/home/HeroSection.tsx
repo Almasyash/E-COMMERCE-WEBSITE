@@ -18,49 +18,49 @@ export const HeroSection: React.FC = () => {
               <span>THE 2026 FLAGSHIP COLLECTION IS LIVE</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
+            <h1 className="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] text-white">
               Hardware Crafted For{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
                 Peak Performance.
               </span>
             </h1>
 
-            <p className="text-slate-300 text-sm sm:text-base lg:text-lg max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
+            <p className="text-slate-300 text-xs sm:text-base lg:text-lg max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
               Explore authentic noise-canceling headphones, Apple M3 workstations, hot-swappable custom keyboards, and ergonomic studio desks designed for creators and professionals.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
               <Link
                 to="/products"
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition-all shadow-lg hover:shadow-emerald-500/25"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-lg hover:shadow-emerald-500/25"
               >
                 <span>Shop All Hardware</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 to="/products?featured=true"
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-white font-semibold text-sm transition-all"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-white font-semibold text-xs sm:text-sm transition-all"
               >
                 <span>Featured Picks</span>
               </Link>
             </div>
 
             {/* Highlights */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800/80 text-left">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-6 border-t border-slate-800/80 text-left">
               <div>
-                <div className="text-xl sm:text-2xl font-bold text-white">100%</div>
-                <div className="text-xs text-slate-400 mt-0.5">Authentic Certified</div>
+                <div className="text-lg sm:text-2xl font-bold text-white">100%</div>
+                <div className="text-[10px] sm:text-xs text-slate-400 mt-0.5">Authentic Certified</div>
               </div>
               <div>
-                <div className="text-xl sm:text-2xl font-bold text-white">24h</div>
-                <div className="text-xs text-slate-400 mt-0.5">Priority Dispatch</div>
+                <div className="text-lg sm:text-2xl font-bold text-white">24h</div>
+                <div className="text-[10px] sm:text-xs text-slate-400 mt-0.5">Priority Dispatch</div>
               </div>
               <div>
-                <div className="text-xl sm:text-2xl font-bold text-white flex items-center gap-1">
+                <div className="text-lg sm:text-2xl font-bold text-white flex items-center gap-1">
                   <span>4.9</span>
-                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-amber-400 text-amber-400 flex-shrink-0" />
                 </div>
-                <div className="text-xs text-slate-400 mt-0.5">Customer Satisfaction</div>
+                <div className="text-[10px] sm:text-xs text-slate-400 mt-0.5">Customer Rating</div>
               </div>
             </div>
           </div>

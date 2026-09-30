@@ -312,11 +312,21 @@ export const OrderDetailPage: React.FC = () => {
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
             onClick={() => setCancelModalOpen(false)}
           />
-          <div className="relative bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 z-10">
-            <h3 className="text-base font-bold text-slate-900 mb-1">Cancel Order #{order.orderNumber}</h3>
-            <p className="text-xs text-slate-500 mb-4">
-              Please let us know why you wish to cancel this order. Your inventory reservation will be released.
-            </p>
+          <div className="relative bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-200 z-10 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <h3 className="text-base font-bold text-slate-900">Cancel Order #{order.orderNumber}</h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Please let us know why you wish to cancel this order. Your inventory reservation will be released.
+                </p>
+              </div>
+              <button
+                onClick={() => setCancelModalOpen(false)}
+                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-xl"
+              >
+                ✕
+              </button>
+            </div>
 
             <form onSubmit={handleCancelOrder} className="space-y-4">
               <div>

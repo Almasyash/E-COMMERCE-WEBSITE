@@ -177,10 +177,10 @@ export const AccountPage: React.FC = () => {
         </div>
 
         {/* Tab Controls */}
-        <div className="flex border-b border-slate-200 gap-6 mb-8">
+        <div className="flex border-b border-slate-200 gap-4 sm:gap-6 mb-8 overflow-x-auto scrollbar-none whitespace-nowrap">
           <button
             onClick={() => setActiveTab('profile')}
-            className={`pb-3 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+            className={`pb-3 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 flex-shrink-0 whitespace-nowrap ${
               activeTab === 'profile'
                 ? 'border-slate-900 text-slate-900'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -191,7 +191,7 @@ export const AccountPage: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveTab('addresses')}
-            className={`pb-3 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+            className={`pb-3 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 flex-shrink-0 whitespace-nowrap ${
               activeTab === 'addresses'
                 ? 'border-slate-900 text-slate-900'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -204,7 +204,7 @@ export const AccountPage: React.FC = () => {
 
         {/* Tab 1: Profile Details */}
         {activeTab === 'profile' && (
-          <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 max-w-2xl shadow-2xs">
+          <div className="bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-8 max-w-2xl shadow-2xs">
             <div className="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
               <h2 className="text-base font-bold text-slate-900">Personal Information</h2>
               {!editingProfile && (
@@ -220,7 +220,7 @@ export const AccountPage: React.FC = () => {
 
             {editingProfile ? (
               <form onSubmit={handleUpdateProfile} className="space-y-4">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="text-xs font-semibold text-slate-700 block mb-1">
                       First Name
@@ -404,10 +404,18 @@ export const AccountPage: React.FC = () => {
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
             onClick={() => setAddressModalOpen(false)}
           />
-          <div className="relative bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 z-10">
-            <h3 className="text-base font-bold text-slate-900 mb-4">
-              {editingAddressId ? 'Edit Address' : 'Add New Address'}
-            </h3>
+          <div className="relative bg-white rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-200 z-10 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-base font-bold text-slate-900">
+                {editingAddressId ? 'Edit Address' : 'Add New Address'}
+              </h3>
+              <button
+                onClick={() => setAddressModalOpen(false)}
+                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-xl"
+              >
+                ✕
+              </button>
+            </div>
 
             <form onSubmit={handleSaveAddress} className="space-y-3">
               <div>
@@ -448,7 +456,7 @@ export const AccountPage: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="text-xs font-semibold text-slate-700 block mb-1">City *</label>
                   <input
